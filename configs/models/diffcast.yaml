@@ -1,0 +1,33 @@
+# DiffCast adapter configuration.
+#
+# Constructor kwargs below are the real keyword arguments of
+# radar_nwp_bench/models/diffcast/model.py :: DiffCastAdapter.__init__.
+
+model:
+  in_radar_c: 10
+  in_nwp_c: 27
+  in_len: 11
+  out_len: 10
+  # Number of DDIM steps used at inference.
+  sample_steps: 6
+  # Token/feature width of the deterministic SimVP backbone.
+  dim: 64
+  # Hidden width of the backbone.
+  hidden: 128
+  # Number of space-time blocks in the backbone.
+  n_blocks: 2
+  # Base width of the residual U-Net denoiser.
+  unet_base: 32
+  # Internal width of the NWP encoder backbone.
+  nwp_hidden: 64
+  # Width of the NWP conditioning map.
+  nwp_channels: 32
+  # Number of diffusion training timesteps.
+  train_timesteps: 1000
+  # Clamp applied to the residual field.
+  residual_clip: 20.0
+
+paper: "DiffCast: A Unified Framework via Residual Diffusion for Precipitation Nowcasting (CVPR 2024), arXiv:2312.06734"
+repo: "https://github.com/DeminYu98/DiffCast"
+license: "GPL-3.0 (upstream; this adapter is an independent reimplementation)"
+notes: "Upstream is radar-only 5-in/20-out at 128x128; this adapter adds an NWP conditioning path."

@@ -1,0 +1,19 @@
+# PredRNN adapter configuration.
+#
+# Constructor kwargs below are the real keyword arguments of
+# models/predrnn/model.py :: PredRNNAdapter.__init__.
+
+model:
+  in_radar_c: 10
+  in_nwp_c: 27
+  in_len: 11
+  out_len: 10
+  # Width of the recurrent hidden state.
+  hid_c: 64
+  # Number of stacked ST-LSTM cells.
+  num_layers: 2
+
+paper: "PredRNN: A Recurrent Neural Network for Probabilistic Prediction (NeurIPS 2017), arXiv 1907.05242"
+repo: null
+license: "n/a (no code released)"
+notes: "The stochastic video-prediction baseline adapted to nowcasting. The NWP fields enter through the channel axis of the encoder, and the spatio-temporal memory cell carries the uncertainty state across the recurrent steps."

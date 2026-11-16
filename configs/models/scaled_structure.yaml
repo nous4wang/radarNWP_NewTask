@@ -1,0 +1,38 @@
+# E45 / MASTER 4.47 -- A4: the amount and the structure, separated.
+#
+# The single-variable claim: the ONLY difference from the control arm
+# (simvp_v2 + balanced) is HOW THE OUTPUT IS PUT TOGETHER.  The
+# backbone, the loss, the number of loss terms and the output contract
+# are unchanged, and no new dependency is introduced.
+#
+# out = T * S,   mean(S) = 1,   mean(out) = T
+#
+# The total is carried by T alone, so no change to the structure
+# operator can move it.  E44 measured the opposite on its own arms: A2
+# (additive decomposition) and A4 (FNO decoder) both DROPPED BIAS@2.0
+# (0.4192 / 0.3845) while their shape metrics improved.  Making the
+# field right and making the amount right were the same statement, so
+# a better shape was paid for with a worse total.
+#
+# scale_mode "head": T = softplus(scale_head(gpool(body))) -- a new
+#                     scalar head carries the amount.
+# scale_mode "own": T = mean rain intensity of the model's own ordinary
+#                     decode head -- no new scalar head is added.
+#
+# use_scaled false reproduces simvp_v2 bit for bit (the S0 gate).
+
+model:
+  in_radar_c: 10
+  in_nwp_c: 27
+  in_len: 11
+  out_len: 10
+  hid_c: 64
+  num_blocks: 4
+  r_low: 8
+  scale_mode: "head"
+  use_scaled: true
+
+paper: "E45 internal pre-registration; docs/experiments/E45-gate-direction-amount-separation-baseline.md section 2.4"
+repo: null
+license: "n/a (project code)"
+notes: "PRE-REGISTERED / NOT YET TRAINED."

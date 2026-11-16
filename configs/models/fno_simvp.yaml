@@ -1,0 +1,30 @@
+# E44 / MASTER 4.46 -- A4: the operator-learning branch.
+#
+# The encoder, the time projection and the translator are simvp_v2's.
+# What changes is the operator that turns the latent state into the
+# forecast: a Fourier Neural Operator layer replaces the convolutional
+# decoder's spatial mixing.
+#
+# The layer keeps the lowest 16 frequency modes per axis.  That is what
+# keeps the parameter count in the same range as the convolutional
+# decoder it replaces; the point of the branch is the operator, not the
+# capacity.  The lowest modes are also what carry a large-scale
+# displacement, which is the quantity (r = +0.17) that no mechanism has
+# touched yet.
+#
+# use_fno false reproduces simvp_v2 bit for bit (the S0 gate).
+
+model:
+  in_radar_c: 10
+  in_nwp_c: 27
+  in_len: 11
+  out_len: 10
+  hid_c: 64
+  num_blocks: 4
+  mode_keep: 16
+  use_fno: true
+
+paper: "E44 internal pre-registration; docs/experiments/E44-four-branches-lowrank-vs-tail-topology-operator.md section 2.4"
+repo: null
+license: "n/a (project code)"
+notes: "PRE-REGISTERED / NOT YET TRAINED."

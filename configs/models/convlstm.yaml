@@ -1,0 +1,19 @@
+# ConvLSTM adapter configuration.
+#
+# Constructor kwargs below are the real keyword arguments of
+# models/convlstm/model.py :: ConvLSTMAdapter.__init__.
+
+model:
+  in_radar_c: 10
+  in_nwp_c: 27
+  in_len: 11
+  out_len: 10
+  # Width of the recurrent hidden state.
+  hid_c: 64
+  # Number of stacked ConvLSTM layers.
+  num_layers: 2
+
+paper: "Convolutional LSTM for Precipitation Nowcasting (arXiv 1907.05242), DOI 10.48550/arXiv.1907.05242"
+repo: null
+license: "n/a (no code released)"
+notes: "The classic deep-learning baseline for radar nowcasting: the NWP fields are broadcast along the channel axis and concatenated to the radar history before the recurrent core. It is the reference point for 'how much does a modern architecture buy over a plain ConvLSTM'."

@@ -1,0 +1,25 @@
+# Route R2: the observed history rainfall as an input, with a lag.
+#
+# The model takes the ground rainfall observed at the issue time as an
+# input channel. `obs_lag_steps` says how many of the most recent
+# frames are unavailable, so the cost of a late observation can be
+# measured: 2 is twelve minutes, 4 is twenty-four, 11 means the
+# observation is not used at all and the model degenerates to route R1.
+#
+# THIS CHANGES THE TASK. At inference the model consumes ground
+# observations, so its scores are not comparable with a pure radar
+# extrapolation and belong in a table of their own.
+
+model:
+  in_radar_c: 10
+  in_nwp_c: 27
+  in_len: 11
+  out_len: 10
+  hid_c: 64
+  # How many of the most recent history frames are unavailable.
+  obs_lag_steps: 0
+
+paper: "SimVP: Simulating Video Dynamics via Learning Predictive Tokens (ICLR 2022), arXiv 2206.13079"
+repo: null
+license: "n/a (no code released)"
+notes: "Route R2. The observed history rainfall is assimilated as an input channel; the lagged slots are filled by the model's own inversion, so the model degrades gracefully as the observation gets later. Compare within this family (lag 0 / 2 / 4 / 11), not against the radar baselines."

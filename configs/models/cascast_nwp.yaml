@@ -1,0 +1,35 @@
+# CasCast-NWP adapter configuration.
+#
+# Constructor kwargs below are the real keyword arguments of
+# radar_nwp_bench/models/cascast_nwp/model.py :: CasCastNWPAdapter.__init__.
+
+model:
+  in_radar_c: 10
+  in_nwp_c: 27
+  in_len: 11
+  out_len: 10
+  # Number of DDIM steps used at inference.
+  sample_steps: 6
+  # Seed of the fixed initial noise, so inference is reproducible.
+  noise_seed: 0
+  # Token width of the transformers.
+  dim: 64
+  # Number of space-time blocks in the deterministic branch.
+  n_blocks: 2
+  # Number of diffusion transformer blocks.
+  n_diff_layers: 2
+  # Width of the autoencoder latent.
+  latent_ch: 4
+  # Internal width of the NWP encoder backbone.
+  nwp_hidden: 64
+  # Width of the NWP conditioning map.
+  nwp_channels: 32
+  # Number of diffusion training timesteps.
+  train_timesteps: 1000
+  # Clamp applied to the latent x0 estimate.
+  latent_clip: 5.0
+
+paper: "CasCast: Skillful High-resolution Precipitation Nowcasting via Cascaded Modelling (ICML 2024), arXiv:2402.04290"
+repo: "https://github.com/OpenEarthLab/CasCast"
+license: "NOASSERTION (no LICENSE file in upstream repo)"
+notes: "Upstream is radar-only SEVIR 13-in/12-out at 384x384; this adapter adds NWP conditioning and adapts to 11-in/10-out."

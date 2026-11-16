@@ -1,0 +1,21 @@
+# MMF-RNN adapter configuration.
+#
+# Constructor kwargs below are the real keyword arguments of
+# radar_nwp_bench/models/mmf_rnn/model.py :: MMFRNNAdapter.__init__.
+
+model:
+  in_radar_c: 10
+  in_nwp_c: 27
+  in_len: 11
+  out_len: 10
+  # Feature width of both branches and of the recurrent state.
+  dim: 48
+  # Hidden width of the recurrent state.
+  hidden: 48
+  # Internal width of the NWP branch backbone.
+  nwp_hidden: 64
+
+paper: "MMF-RNN: A Multimodal Fusion Model for Precipitation Nowcasting Using Radar and Ground Station Data, IEEE TGRS 2025, DOI 10.1109/TGRS.2025.3528423"
+repo: "none (paper only; paywalled)"
+license: "n/a"
+notes: "Upstream second modality is ground-station gauges, which this benchmark lacks; NWP substitutes for the gauge modality."

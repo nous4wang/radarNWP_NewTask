@@ -1,0 +1,21 @@
+# Single-frame neural QPE: invert t0 radar + NWP into t0 ground rainfall,
+# then copy that field across the forecast window (no advection at all).
+#
+# Constructor kwargs below are the real keyword arguments of
+# models/physical_qpe/model.py :: PhysicalQPEModel.__init__.
+
+model:
+  in_radar_c: 10
+  in_nwp_c: 27
+  in_len: 11
+  out_len: 10
+  hid_c: 64
+  num_blocks: 4
+  # The analysis-hour NWP slice is the one valid at t0. The forecast-hour
+  # slice is kept as a one-variable ablation, not used in the main run.
+  nwp_slice: analysis
+
+paper: null
+repo: null
+license: "n/a (project baseline)"
+notes: "Oracle upper bound is CSI@2.0 = 0.1653 (perfect QPE + no motion); analytical Z-R persistence floor is 0.0924. Trained with --loss balanced --qpe-single-frame so the score-aware objective supervises ONLY y_hist[:, -1], never a future frame. Evaluated by the standard scripts/evaluate.py, which stitches the full 301x301 grid."

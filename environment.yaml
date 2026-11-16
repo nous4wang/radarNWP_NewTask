@@ -1,0 +1,34 @@
+# Conda environment for the radar-NWP precipitation benchmark.
+#
+#   conda env create -f environment.yaml
+#   conda activate radar-nwp-bench
+#
+# Tested versions (see the pip section below):
+#   python 3.12, torch 2.5.1, numpy 2.1.3, scipy 1.14.1, einops 0.8.0,
+#   pyyaml 6.0.2, tqdm 4.67.1, matplotlib 3.9.3, h5py 3.12.1, pandas 2.2.3,
+#   scikit-learn 1.5.2, opencv-python 4.10.0.84
+#
+# For a CUDA build of PyTorch, replace the torch line in the pip section with
+# the index-url form below (pick the wheel matching the local CUDA runtime):
+#
+#   - --extra-index-url https://download.pytorch.org/whl/cu121
+#   - torch>=2.1
+
+name: radar-nwp-bench
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12
+  - pip
+  - pip:
+      - torch>=2.1
+      - numpy>=1.24
+      - scipy>=1.11
+      - einops>=0.7
+      - pyyaml>=6.0
+      - tqdm
+      - matplotlib
+      - h5py
+      - pandas
+      - scikit-learn
+      - opencv-python

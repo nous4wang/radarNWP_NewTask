@@ -1,0 +1,31 @@
+# E44 / MASTER 4.46 -- A2: an explicit additive decomposition.
+#
+# out = low + sparse
+#
+# The sparse term is predicted INDEPENDENTLY and never passes through the
+# low-rank projection, so the heavy tail is carried by the sparse
+# component and the low-rank term cannot flatten it.  This is the
+# additive form of Robust PCA, and it is a different mathematical object
+# from E43's single tensor under two operations.
+#
+# There is no area penalty and no sparsity regulariser: E42's lesson was
+# that a second term whose optimum points the same way as the regression
+# drives the field to zero.
+#
+# low_rank / additive false reproduce simvp_v2 bit for bit (the S0 gate).
+
+model:
+  in_radar_c: 10
+  in_nwp_c: 27
+  in_len: 11
+  out_len: 10
+  hid_c: 64
+  num_blocks: 4
+  r_low: 8
+  low_rank: true
+  additive: true
+
+paper: "E44 internal pre-registration; docs/experiments/E44-four-branches-lowrank-vs-tail-topology-operator.md section 2.2"
+repo: null
+license: "n/a (project code)"
+notes: "PRE-REGISTERED / NOT YET TRAINED."

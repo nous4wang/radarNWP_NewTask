@@ -1,0 +1,21 @@
+# Route R1: the QPE-QPF split, with the history rainfall as a teacher.
+#
+# The model inverts the radar history into a rainfall field and then
+# extrapolates from it. The two stages share one rainfall head, and the
+# observed history rainfall supervises the inversion during training.
+#
+# The inference-time input contract is unchanged: the model takes the
+# radar history and the NWP state, and nothing else.
+
+model:
+  in_radar_c: 10
+  in_nwp_c: 27
+  in_len: 11
+  out_len: 10
+  # Width of the inversion features and of the shared head.
+  hid_c: 64
+
+paper: "SimVP: Simulating Video Dynamics via Learning Predictive Tokens (ICLR 2022), arXiv 2206.13079"
+repo: null
+license: "n/a (no code released)"
+notes: "Route R1. The archive's radar and rainfall series share their timestamps, so the eleven history instants have an observed rainfall each, with no displacement error between the radar and the truth. This model uses that: an inversion branch is supervised directly against the observed history rainfall, and the forecast branch works in the space of the inverted rainfall. The two share one rainfall head, so the zero-displacement supervision anchors the forecast. At inference the model consumes exactly what the baselines consume -- the training objective supplies the observed history."

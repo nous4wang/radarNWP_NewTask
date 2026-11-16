@@ -1,0 +1,42 @@
+# SimVP-v2 with the Hybrid Quantum Manifold Architecture.
+#
+# Constructor kwargs below are the real keyword arguments of
+# models/simvp_v2_hqma/model.py :: SimVPv2HybridQuantumManifold.__init__.
+
+model:
+  in_radar_c: 10
+  in_nwp_c: 27
+  in_len: 11
+  out_len: 10
+  # Width of the latent feature maps.
+  hid_c: 64
+  # Bond dimension of the quantum state projector.
+  bond_dim: 32
+  # Number of bins in the hierarchical rain head.
+  #
+  # Six is the aligned case: the bins are the intervals [0,0.1) [0.1,0.5)
+  # [0.5,1.0) [1.0,2.0) [2.0,4.0) [4.0,inf), the tail sums are exactly the
+  # five exceedance probabilities, and each threshold has a bin of its own.
+  #
+  # Five is the misaligned case, kept so the difference can be measured
+  # rather than argued about: the first tail sum is P(R >= 0), which is
+  # identically one, and every threshold is off by one against its
+  # probability.
+  head_bins: 6
+  # How the head turns the bin distribution into a rain rate.
+  #
+  # "midpoint" represents each bin by its middle, so a pixel the head
+  # places in the bin above a threshold reconstructs to a rate above it.
+  # "floor" represents each bin by its lower edge, which puts the
+  # reconstruction exactly on the threshold: measured on the archive, a
+  # run with that setting produced a maximum prediction of 1.999797 mm,
+  # with 1.51 % of the pixels within a hundredth of a millimetre below
+  # the 2.0 mm threshold and none above it, so the score at 2.0 mm was
+  # exactly zero however much probability mass the head put on the heavy
+  # bins.
+  level_mode: midpoint
+
+paper: "SimVP: Simulating Video Dynamics via Learning Predictive Tokens (ICLR 2022), arXiv 2206.13079"
+repo: null
+license: "n/a (no code released)"
+notes: "Hybrid Quantum Manifold Architecture. Shallow concatenation of the radar and the NWP channels (the part M1 proved worth keeping), a deep Koopman tendency read from the two NWP slices and applied per forecast frame, and a hierarchical projection head that predicts a nested distribution over the rain bins rather than a single regressed number. The head exists because the measured frequency bias of every model trained with a single-channel head was 0.08-0.33 -- they predicted between two and a third of the rain that fell. Train it with --loss hierarchical so the exceedance probabilities are supervised; with --loss standard the head's probabilities are unused and the head contributes little. Compare against simvp_v2 (backbone), simvp_v2_nwp_concat (M1) and simvp_v2_quantum (M4)."

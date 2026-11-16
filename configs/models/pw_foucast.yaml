@@ -1,0 +1,25 @@
+# PW-FouCast adapter configuration.
+#
+# Constructor kwargs below are the real keyword arguments of
+# radar_nwp_bench/models/pw_foucast/model.py :: PWFouCastAdapter.__init__.
+
+model:
+  in_radar_c: 10
+  in_nwp_c: 27
+  in_len: 11
+  out_len: 10
+  # Hidden width of the spectral trunk.
+  channels: 32
+  # Width of the per-frame features before the rain head.
+  head_channels: 16
+  # Number of radial basis functions of the AFNO weight.
+  n_bases: 4
+  # Number of channel groups of the block-diagonal AFNO weight.
+  n_blocks: 4
+  # Number of frequency-memory slots.
+  mem_slots: 4
+
+paper: "PW-FouCast: Extending Precipitation Nowcasting Horizons via Spectral Fusion of Radar Observations and Foundation Model Priors (IJCNN 2026), arXiv:2603.21768"
+repo: "https://github.com/Onemissed/PW-FouCast"
+license: "NOASSERTION (no LICENSE file in upstream repo)"
+notes: "Upstream hardcodes 20 Pangu channels and a 5-in/20-out regime; this adapter adapts it to 27 NWP variables and 11-in/10-out."

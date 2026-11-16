@@ -1,0 +1,34 @@
+# E43 / MASTER 4.45 -- low-rank + sparse decomposition inside the model.
+#
+# The single-variable claim: the ONLY difference from the control arm
+# (simvp_v2 + balanced) is this model's internal structure.  The output
+# contract is unchanged -- (B, 10, 1, H, W) millimetres -- and the
+# evaluator, the thresholds and the window set are untouched.
+#
+# r_low        : the background is confined to the r_low lowest-frequency
+#                DCT modes of the patch, so it cannot take an arbitrary
+#                shape.  This is the "low rank" of the decomposition.
+# gate_temp    : temperature of the support gate.  The gate is
+#                sigmoid((g - tau) / gate_temp) with a LEARNED per-sample
+#                threshold tau, so the model picks both the shape of its
+#                support and how much area to claim.  No area penalty and
+#                no new loss term.
+# low_rank     : false reproduces simvp_v2 bit for bit (the S0 gate).
+# sparse_gate  : false removes the support mask.
+
+model:
+  in_radar_c: 10
+  in_nwp_c: 27
+  in_len: 11
+  out_len: 10
+  hid_c: 64
+  num_blocks: 4
+  r_low: 8
+  gate_temp: 1.0
+  low_rank: true
+  sparse_gate: true
+
+paper: "E43 internal pre-registration; mechanism references in docs/experiments/E43-low-rank-sparse-decomposition.md section 2"
+repo: null
+license: "n/a (project code)"
+notes: "NOT a new architecture family: same SimVP-v2 backbone, a different internal structure of the decoder's output.  PRE-REGISTERED / NOT YET TRAINED."

@@ -1,0 +1,42 @@
+# E39 / MASTER 4.41 -- IBCFM adapter configuration.
+#
+# Constructor kwargs below are the real keyword arguments of
+# models/ibcfm/model.py :: IBCFMModel.__init__.
+#
+# STATUS: PRE-REGISTERED / NOT ELIGIBLE.  This model has never been trained or
+# evaluated on the dataset.  Criteria C0-C5 are frozen in
+# docs/experiments/E39-generative-route-reexamination-and-ibcfm.md.
+
+model:
+  in_radar_c: 10
+  in_nwp_c: 27
+  in_len: 11
+  out_len: 10
+  hid_c: 32
+  # Fully-convolutional velocity field. No VAE, no downsampling: E39 section 2
+  # records that latent compression attenuates compact high-intensity cores.
+  unet_base: 16
+  n_velocity_blocks: 4
+  # Genuine random members at inference (K=8), 4 Euler steps each.
+  n_members: 8
+  sample_steps: 4
+  # A1 control arm sets this to false: zero-start DDIM-equivalent transport,
+  # matching models/diffcast/model.py:344-357. Only this one switch differs.
+  random_start: true
+  intensity_bands: true
+  # "member" | "mean" | "decision". All three still return a mm rainfall field.
+  decision_mode: decision
+  # PLACEHOLDERS -- must be calibrated on the TRAIN split before any dataset
+  # run (E39 4.1 / C0). No validation fields exist (E26); never tune on test
+  # (E18 information leak).
+  p_star: 0.5
+  exceed_mm: 2.5
+  tier: 2.0
+  noise_scale: 1.0
+
+loss: "ibcfm"
+
+paper: "E39 pre-registration; design draws on MTLDM (IEEE TGRS 2025, 10.1109/TGRS.2025.3564916), FlowCast (ICLR 2026, arXiv:2511.09731), MW-Nowcast (arXiv:2609.34836), S3NN (IEEE TGRS 2026, 10.1109/TGRS.2026.3684546), Guilloteau et al. (IEEE TGRS 2025), DGMR (Nature 2021, 10.1038/s41586-021-03854-z)"
+repo: null
+license: "n/a (independent implementation; no upstream code copied)"
+notes: "Not a validated method. Do not cite any performance number. Training requires --loss ibcfm; the evaluator is unchanged."

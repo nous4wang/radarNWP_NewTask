@@ -1,0 +1,15 @@
+# PySTEPS advection adapter configuration.
+#
+# This baseline is analytical: it has no weights to fit and is evaluated
+# rather than trained (the training script detects is_learnable = False).
+
+model:
+  in_radar_c: 10
+  in_nwp_c: 27
+  in_len: 11
+  out_len: 10
+
+paper: "PySTEPS: A Probabilistic Nowcasting Package for Rainfall Nowcasting (Journal of Open Source Software 2023), DOI 10.21105/joss.04296"
+repo: "https://github.com/pySTEPS/pySTEPS"
+license: "MIT"
+notes: "A semi-Lagrangian extrapolation baseline: the optical flow between the last two radar frames is estimated by finite differences and the last frame is advected forward, then converted to rainfall through the Z-R relation. It is the operational reference -- a forecast that does not learn anything must still be beaten. It ignores the NWP entirely, so it also bounds what the radar alone can do without any learning."

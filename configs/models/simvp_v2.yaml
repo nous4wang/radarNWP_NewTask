@@ -1,0 +1,19 @@
+# SimVP-v2 adapter configuration.
+#
+# Constructor kwargs below are the real keyword arguments of
+# models/simvp_v2/model.py :: SimVPv2Model.__init__.
+
+model:
+  in_radar_c: 10
+  in_nwp_c: 27
+  in_len: 11
+  out_len: 10
+  # Width of the latent feature maps.
+  hid_c: 64
+  # Number of spatio-temporal translation blocks.
+  num_blocks: 4
+
+paper: "SimVP: Simulating Video Dynamics via Learning Predictive Tokens (ICLR 2022), arXiv 2206.13079"
+repo: null
+license: "n/a (no code released)"
+notes: "The MLP-based video-prediction baseline, adapted to nowcasting. It is the cheapest of the multimodal baselines here, so it doubles as a control: if the NWP ablation moves it as much as it moves the heavy models, the effect is an artefact of the training budget rather than of the architecture."

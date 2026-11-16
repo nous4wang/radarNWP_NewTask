@@ -1,0 +1,32 @@
+# E44 / MASTER 4.46 -- A1: the low-rank term constrains the background only.
+#
+# The single-variable claim: the ONLY difference from the control arm
+# (simvp_v2 + balanced) is the composition of the output map.  The
+# projection basis and rank, the gate expression, the backbone, the loss
+# and the output contract are unchanged.
+#
+# out = low + mask * (amp - low)
+#
+# The background takes the low-rank component; the rain region takes what
+# the projection removed, so the amplitude tail is not shaved.  E43's
+# failure was exactly that: the same projection flattened the background
+# correctly and destroyed the tail.
+#
+# low_rank / sparse_gate false reproduce simvp_v2 bit for bit (the S0 gate).
+
+model:
+  in_radar_c: 10
+  in_nwp_c: 27
+  in_len: 11
+  out_len: 10
+  hid_c: 64
+  num_blocks: 4
+  r_low: 8
+  gate_temp: 1.0
+  low_rank: true
+  sparse_gate: true
+
+paper: "E44 internal pre-registration; docs/experiments/E44-four-branches-lowrank-vs-tail-topology-operator.md section 2.1"
+repo: null
+license: "n/a (project code)"
+notes: "PRE-REGISTERED / NOT YET TRAINED."

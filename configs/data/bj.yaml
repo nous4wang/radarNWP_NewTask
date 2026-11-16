@@ -1,0 +1,101 @@
+# Beijing-region dataset configuration.
+#
+# Facts below are taken from docs/DATA_AUDIT.md (audited 2026-10-30) and from
+# radar_nwp_bench/data/coordinates.py (RADAR_SHAPE, NWP_SHAPE,
+# NWP_TO_RADAR_SCALE).
+
+data:
+  # Root holding the 62 CP_01_* case directories of the local archive.
+  root: "R:/1radarNWPprediction/data/BJ"
+  # The raw archive is a tree of small .npy files; set packed: true once
+  # scripts/pack_data.py has written one .npz container per case.
+  packed: false
+  patch_size: 128
+  in_len: 11
+  out_len: 10
+  alignment: forecast
+  random_crop: true
+  radar_vars:
+    - CAP20
+    - CAP30
+    - CAP40
+    - CAP50
+    - CAP60
+    - CAP70
+    - CR
+    - ET
+    - HBR
+    - VIL
+  nwp_vars:
+    - CAPE
+    - DVG200
+    - DVG850
+    - DVG925
+    - HT0
+    - HT10
+    - HTw0
+    - KI
+    - LCL
+    - LFC
+    - LI300
+    - LI500
+    - muLCL
+    - PE
+    - PWAT
+    - Q1000
+    - Q700
+    - Q850
+    - RH1000
+    - RH500
+    - RH700
+    - TdSfc850
+    - TTdMax74
+    - TTdMean74
+    - WS500
+    - WS700
+    - WS925
+
+audit:
+  # The archive holds 62 cases named CP_01_<MMDDHHMM>_00001 (region 01 =
+  # Beijing), totalling 62818 .npy files.
+  n_cases: 62
+  case_id_pattern: "CP_01_<MMDDHHMM>_00001"
+  n_files_total: 62818
+  # 58 of the 62 cases are internally consistent; these 4 have RADAR/LABEL
+  # frame counts that disagree, so the loader must key on timestamps rather
+  # than on positional index.
+  inconsistent_cases:
+    - CP_01_06230359
+    - CP_01_07011914
+    - CP_01_07061806
+    - CP_01_07120834
+  radar_label_grid:
+    shape: [301, 301]
+    resolution_deg: 0.01
+    span_deg: 3.00
+    dtype: int16
+    # RADAR: RADAR_NODATA=-32768, RADAR_NOECHO=-1280, RADAR_SCALE=10.
+    # LABEL/RA: unit_RA=0.1mm, FillValue=-9.
+    vars: 10
+  nwp_grid:
+    shape: [167, 167]
+    resolution_deg: 0.03
+    span_deg: 5.01
+    dtype: float16
+    # NWP FillValue=-9999.
+    vars: 27
+  # The NWP window contains the RADAR window; registration is
+  # 167x167 @0.03deg -> bilinear x3 -> 501x501 @0.01deg -> centre crop -> 301x301.
+  registration:
+    scale: 3
+    crop: [100, 401, 100, 401]
+  cadence:
+    radar_min: 6
+    label_min: 6
+    nwp_min: 60
+  # NWP filenames encode valid times, not issue times.
+  nwp_timestamps_are_valid_times: true
+
+paths:
+  packed_dir: data/pack
+  runs_dir: runs

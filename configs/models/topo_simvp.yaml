@@ -1,0 +1,26 @@
+# E44 / MASTER 4.46 -- A3: the topology branch.
+#
+# The backbone and the decoder are simvp_v2's, parameter for parameter.
+# The mechanism is a single extra term in the objective: the soft clDice
+# connectivity term at the strong-rain threshold (2.0 mm), with the
+# weight fixed at 0.1 in advance.
+#
+# The threshold is 2.0 mm rather than 0.5 mm because at 0.5 mm almost
+# every pixel is wet and the connectivity would be satisfied by anything
+# that reports rain everywhere.
+#
+# The objective is selected with --loss topo, which keeps the load-bearing
+# balanced term unchanged and adds the topology term on top.
+
+model:
+  in_radar_c: 10
+  in_nwp_c: 27
+  in_len: 11
+  out_len: 10
+  hid_c: 64
+  num_blocks: 4
+
+paper: "E44 internal pre-registration; docs/experiments/E44-four-branches-lowrank-vs-tail-topology-operator.md section 2.3"
+repo: null
+license: "n/a (project code)"
+notes: "PRE-REGISTERED / NOT YET TRAINED."

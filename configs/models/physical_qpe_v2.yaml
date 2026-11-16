@@ -1,0 +1,28 @@
+# Direction 3 (D3): v1 single-frame neural QPE + explicit NWP evaporation gate.
+#
+# The architecture is a deliberate copy of models/physical_qpe/model.py, with
+# EXACTLY one extra variable (the gate).  The ablation arm is
+#   --model-kwargs '{"use_gate": false}'
+# which gives T == 1 and a state_dict identical to physical_qpe for the same
+# seed.  Section 4.20.1 downgrades this direction to "a constrained subset of
+# v1"; D3-A requires a paired bootstrap CI excluding zero versus v1 ep00
+# (CSI@2.0 = 0.1226) before any claim can be written.
+#
+# Constructor kwargs below are the real keyword arguments of
+# models/physical_qpe_v2/model.py :: PhysicalQPEModelV2.__init__.
+
+model:
+  in_radar_c: 10
+  in_nwp_c: 27
+  in_len: 11
+  out_len: 10
+  hid_c: 64
+  num_blocks: 4
+  nwp_slice: analysis
+  use_gate: true
+  gate_hidden: 32
+
+paper: null
+repo: null
+license: "n/a (project baseline)"
+notes: "D3 paired ablation: use_gate=true/false must differ by ONLY the gate. Trained with --loss balanced --qpe-single-frame, 3 epochs, evaluated per epoch with the standard full-grid 301x301 Hann stitching. Reference: v1 ep00 CSI@2.0 = 0.1226 (section 4.19)."

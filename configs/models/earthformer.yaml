@@ -1,0 +1,19 @@
+# Earthformer adapter configuration.
+#
+# Constructor kwargs below are the real keyword arguments of
+# models/earthformer/model.py :: EarthformerAdapter.__init__.
+
+model:
+  in_radar_c: 10
+  in_nwp_c: 27
+  in_len: 11
+  out_len: 10
+  # Width of the token embedding.
+  embed_dim: 64
+  # Number of cuboid-attention blocks.
+  num_blocks: 3
+
+paper: "Earthformer: Exploring Space-Time Transformers for Precipitation Nowcasting (NeurIPS 2022), arXiv 2206.13079"
+repo: null
+license: "n/a (no code released)"
+notes: "The space-time transformer baseline. The radar history and the NWP fields are embedded as 4x-downsampled patches and mixed by cuboid self-attention over the time and space axes."

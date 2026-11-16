@@ -1,0 +1,23 @@
+# SimVP-v2 with the NWP fused by a conventional spatial cross-attention.
+#
+# Constructor kwargs below are the real keyword arguments of
+# models/simvp_v2_nwp_xattn/model.py :: SimVPv2NWPCrossAttention.__init__.
+
+model:
+  in_radar_c: 10
+  in_nwp_c: 27
+  in_len: 11
+  out_len: 10
+  # Width of the latent feature maps.
+  hid_c: 64
+  # Number of spatio-temporal translation blocks.
+  num_blocks: 4
+  # Internal width of the NWP encoder backbone.
+  nwp_hidden: 64
+  # Number of attention heads in the cross-attention.
+  num_heads: 4
+
+paper: "SimVP: Simulating Video Dynamics via Learning Predictive Tokens (ICLR 2022), arXiv 2206.13079"
+repo: null
+license: "n/a (no code released)"
+notes: "Ablation row M2 of the NWP-injection study: the NWP is encoded into a feature map and the radar latent queries it through an ordinary multi-head spatial cross-attention (common.SpatialCrossAttention), with no Koopman or quantum-inspired machinery anywhere. It is the control that answers 'would any competent conventional fusion of the NWP have done as well as the tendency coupler?', and it is deliberately a strong row rather than a straw man."

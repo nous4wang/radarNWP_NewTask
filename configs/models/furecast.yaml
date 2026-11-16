@@ -1,0 +1,27 @@
+# FURECast adapter configuration.
+#
+# Constructor kwargs below are the real keyword arguments of
+# radar_nwp_bench/models/furecast/model.py :: FURECastAdapter.__init__.
+
+model:
+  in_radar_c: 10
+  in_nwp_c: 27
+  in_len: 11
+  out_len: 10
+  # Feature width of the translator state and the decoder.
+  dim: 48
+  # Width of each per-variable late-fusion branch.
+  branch_width: 8
+  # Number of Inception blocks in the translator cascade.
+  n_inception: 2
+  # Internal width of the NWP encoder backbone.
+  nwp_hidden: 64
+  # Number of CAPPI altitude levels predicted by the multi-task head.
+  n_cappi: 6
+  # Default weight of the CAPPI self-consistency penalty.
+  physics_weight: 0.1
+
+paper: "Advancing Convective Precipitation Nowcasting via 3D Polarimetric Radar Data and Physics-Constrained Deep Learning Model (FURECast), GRL 2026, DOI 10.1029/2025GL120431"
+repo: "no model code released; utilities on Zenodo (CC-BY-4.0)"
+license: "CC-BY-4.0 (utilities only)"
+notes: "Upstream is polarimetric (ZH/ZDR/KDP); this adapter uses the CAPPI channel set with a CAPPI-level self-consistency penalty."

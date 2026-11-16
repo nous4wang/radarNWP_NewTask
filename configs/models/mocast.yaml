@@ -1,0 +1,21 @@
+# MoCast adapter configuration.
+#
+# Constructor kwargs below are the real keyword arguments of
+# radar_nwp_bench/models/mocast/model.py :: MoCastAdapter.__init__.
+
+model:
+  in_radar_c: 10
+  in_nwp_c: 27
+  in_len: 11
+  out_len: 10
+  # Width of the latent state.
+  channels: 32
+  # Width of the internal convolutions.
+  hidden: 32
+  # Number of experts in the mixture-of-experts source/sink block.
+  num_experts: 4
+
+paper: "MoCast: Learning Turbulent Motions Under Physical Guidance for Precipitation Nowcasting (AAAI 2026), DOI 10.1609/aaai.v40i19.38628"
+repo: null
+license: "n/a (no code released)"
+notes: "Upstream uses input T=5 / output P=20 on SEVIR; this adapter reimplements the paper description and adapts it to the 6-min / 10-frame regime with NWP conditioning."

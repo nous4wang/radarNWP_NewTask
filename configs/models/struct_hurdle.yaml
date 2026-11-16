@@ -1,0 +1,28 @@
+# E41 / MASTER 4.43 -- structure-aware single-variable ablation model.
+#
+# Constructor kwargs are the real keyword arguments of
+# models/struct_hurdle/model.py :: StructHurdleModel.__init__.
+#
+# SINGLE-VARIABLE MATRIX (E41 section 4):
+#   B0  simvp_v2      + --loss standard
+#   A0  struct_hurdle  head_mode=rain   + --loss standard   (S0 bit-equivalence gate)
+#   A1  struct_hurdle  head_mode=hurdle + --loss hurdle     (output parameterisation)
+#   A2  struct_hurdle  head_mode=rain   + --loss uot        (loss geometry)
+#   A3  struct_hurdle  head_mode=hurdle + --loss hurdle+uot (only after A1/A2 pass)
+
+model:
+  in_radar_c: 10
+  in_nwp_c: 27
+  in_len: 11
+  out_len: 10
+  hid_c: 64
+  num_blocks: 4
+  # 'rain' is line-for-line identical to simvp_v2; 'hurdle' emits
+  # occurrence logit + conditional amount and multiplies them.
+  head_mode: rain
+  occ_prior_logit: -2.0
+
+paper: "E41 internal pre-registration; mechanism references in docs/experiments/E41-*.md section 3"
+repo: null
+license: "n/a (project code)"
+notes: "NOT a new architecture. Same SimVP-v2 backbone, switchable output parameterisation and loss geometry. Zero training results exist as of v2.32; PRE-REGISTERED / COMPONENTS READY."

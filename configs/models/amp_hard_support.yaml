@@ -1,0 +1,33 @@
+# E45 / MASTER 4.47 -- A2: the hard support on the residual.
+#
+# The single-variable claim: the ONLY difference from the control arm
+# (simvp_v2 + balanced) is the gate's FORM.  The backbone, the loss, the
+# number of loss terms and the output contract are unchanged, and no new
+# dependency is introduced.
+#
+# out = low + mask * resid,
+# mask = 1[resid > thr] + sigmoid((resid - thr) / T)
+#        - sigmoid((resid - thr) / T).detach()
+#
+# The indicator is not differentiable, so the gradient is routed through
+# the soft gate: the value is hard and the gradient is soft, the same
+# straight-through construction floor_at_zero already uses.
+#
+# low_rank / hard_gate false reproduce simvp_v2 bit for bit (the S0 gate).
+
+model:
+  in_radar_c: 10
+  in_nwp_c: 27
+  in_len: 11
+  out_len: 10
+  hid_c: 64
+  num_blocks: 4
+  r_low: 8
+  gate_temp: 1.0
+  low_rank: true
+  hard_gate: true
+
+paper: "E45 internal pre-registration; docs/experiments/E45-gate-direction-amount-separation-baseline.md section 2.2"
+repo: null
+license: "n/a (project code)"
+notes: "PRE-REGISTERED / NOT YET TRAINED."

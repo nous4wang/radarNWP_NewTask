@@ -1,0 +1,38 @@
+# E45 / MASTER 4.47 -- A4, second version: the amount comes from the
+# model's OWN ordinary decode head, so no new scalar head is added.
+#
+# The single-variable claim is the same as for `scaled_structure`: the
+# ONLY difference from the control arm (simvp_v2 + balanced) is HOW THE
+# OUTPUT IS PUT TOGETHER.  The backbone, the loss, the number of loss
+# terms and the output contract are unchanged, and no new dependency is
+# introduced.
+#
+# out = T * S,   mean(S) = 1,   mean(out) = T
+#
+# Here T is the mean rain intensity of the existing decoder: the
+# structure head carries the SHAPE and the ordinary decode head carries
+# the AMOUNT.  `dec[-1]`'s output is used only for its mean and never
+# for the shape of the output field.
+#
+# This arm is registered under its own model name rather than a runtime
+# switch, because a switch does not change the state dict: an
+# evaluation run that forgot to pass it would silently evaluate the
+# other mechanism.
+#
+# use_scaled false reproduces simvp_v2 bit for bit (the S0 gate).
+
+model:
+  in_radar_c: 10
+  in_nwp_c: 27
+  in_len: 11
+  out_len: 10
+  hid_c: 64
+  num_blocks: 4
+  r_low: 8
+  scale_mode: "own"
+  use_scaled: true
+
+paper: "E45 internal pre-registration; docs/experiments/E45-gate-direction-amount-separation-baseline.md section 2.4"
+repo: null
+license: "n/a (project code)"
+notes: "PRE-REGISTERED / NOT YET TRAINED."

@@ -1,0 +1,39 @@
+# Route R4: a semi-Lagrangian advection with a learned source and sink.
+#
+# The rainfall field is carried forward by a motion field instead of
+# being re-predicted pixel by pixel. The source and sink residual is what
+# the network learns from the NWP state: the growth and decay that the
+# motion alone cannot explain.
+#
+# The gate between them is not decoration. Without it the residual can
+# absorb the whole answer and the motion field learns nothing, and the
+# model becomes the baseline it was meant to beat. The mean gate weight
+# is reported with every run so that "the model uses the physics" is a
+# measurement.
+#
+# The bilinear resampling is NOT conservative: it dilutes the dense cells
+# and fills the sparse ones. The mass ratio before and after the warp is
+# recorded for every patch so the claim can be checked rather than
+# asserted.
+#
+# The two switches give the three arms of the ablation:
+#   use_advection off    the residual alone
+#   use_source_sink off  the advection alone
+#   both on              the full model
+
+model:
+  in_radar_c: 10
+  in_nwp_c: 27
+  in_len: 11
+  out_len: 10
+  hid_c: 64
+  use_advection: true
+  use_source_sink: true
+  # The largest displacement the motion field may ask for, in pixels per
+  # frame. A frame is six minutes, so six pixels is thirty-six km/h.
+  max_disp: 6.0
+
+paper: "Semi-Lagrangian advection with a learned source term (advection scheme in numerical weather prediction)"
+repo: null
+license: "n/a"
+notes: "Route R4. The forecast is a gated blend of a semi-Lagrangian advection of the inverted rainfall and a learned source/sink residual. Compare the three ablation arms with each other before comparing with the baselines, and read the gate weight and the mass ratio alongside the scores."

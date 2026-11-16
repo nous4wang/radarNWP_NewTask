@@ -1,0 +1,21 @@
+# MetNet-3 adapter configuration.
+#
+# Constructor kwargs below are the real keyword arguments of
+# radar_nwp_bench/models/metnet3/model.py :: MetNet3Adapter.__init__.
+
+model:
+  in_radar_c: 10
+  in_nwp_c: 27
+  in_len: 11
+  out_len: 10
+  # Base channel width of the U-Net.
+  width: 32
+  # Width of the per-lead feature groups before the final head.
+  head_channels: 16
+  # Window size of the local MaxViT attention.
+  window: 8
+
+paper: "Deep Learning for Day Forecasts from Sparse Observations (MetNet-3), Google DeepMind, arXiv:2306.06079"
+repo: "none official; third-party MIT: https://github.com/lucidrains/metnet3-pytorch"
+license: "MIT (third-party reference implementation)"
+notes: "Upstream targets 24 h / 2 min CONUS forecasts; this adapter adapts it to the 6-min / 10-frame regime with MaxViT blocks and lead-time conditioning."
